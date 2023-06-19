@@ -233,8 +233,25 @@ function getRectangleString(width, height) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  const emptyArr = [];
+  const capital = (e) => !(e === e.toLowerCase());
+  for (let i = 0; i < str.length; i += 1) {
+    if (!arr.includes(str[i].toLowerCase())) {
+      emptyArr.push(str[i]);
+    } else {
+      const numInd = arr.indexOf(str[i].toLowerCase());
+      const newInd = numInd <= 12 ? numInd + 13 : numInd - 13;
+
+      if (capital(str[i])) {
+        emptyArr.push(arr[newInd].toUpperCase());
+      } else {
+        emptyArr.push(arr[newInd]);
+      }
+    }
+  }
+  return emptyArr.join('');
 }
 
 /**
@@ -250,10 +267,12 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  if (value === undefined || value == null) {
+    return false;
+  }
+  return value.includes('');
 }
-
 
 /**
  * Returns playid card id.
@@ -279,8 +298,12 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arr = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  return arr.indexOf(value);
 }
 
 
