@@ -23,7 +23,6 @@ function getRectangleArea(width, height) {
   return width * height;
 }
 
-
 /**
  * Returns a circumference of circle given by radius.
  *
@@ -113,7 +112,6 @@ function getLinearEquationRoot(a, b) {
   return result;
 }
 
-
 /**
  * Returns an angle (in radians) between two vectors given by xi and yi,
  * coordinates in Cartesian plane.
@@ -184,7 +182,6 @@ function getParallelepipedDiagonal(a, b, c) {
   return Math.sqrt((a ** 2) + (b ** 2) + (c ** 2));
 }
 
-
 /**
  * Returns the number rounded to specified power of 10.
  *
@@ -212,7 +209,7 @@ function roundToPowerOfTen(num, pow) {
  * See: https://en.wikipedia.org/wiki/Primality_test
  *
  * @param {number} n
- * @return {bool}
+ * @return {boolean}
  *
  * @example:
  *   4 => false
@@ -224,8 +221,11 @@ function roundToPowerOfTen(num, pow) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  throw new Error('Not implemented');
+function isPrime(n) {
+  for (let i = 2; i < n; i += 1) {
+    if (n % i === 0) return false;
+  }
+  return n > 1;
 }
 
 /**
@@ -243,8 +243,16 @@ function isPrime(/* n */) {
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-function toNumber(/* value, def */) {
-  throw new Error('Not implemented');
+function toNumber(value, def) {
+  let typeValue = null;
+  if (typeof value === 'string') {
+    typeValue = Number.isNaN(Number(value)) ? def : Number(value);
+  } else if (typeof value === 'number' || value instanceof Number) {
+    typeValue = value;
+  } else {
+    typeValue = def;
+  }
+  return typeValue;
 }
 
 module.exports = {
