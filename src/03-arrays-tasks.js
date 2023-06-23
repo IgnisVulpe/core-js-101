@@ -284,10 +284,15 @@ function propagateItemsByPositionIndex(/* arr */) {
  *   [ 1,2,3,4,5,6,7,8,9,10 ] => [ 10, 9, 8 ]
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
-function get3TopItems(/* arr */) {
-  throw new Error('Not implemented');
+function get3TopItems(arr) {
+  let maxNum;
+  if (arr[arr.length] >= 0 && arr[arr.length] <= 3) {
+    maxNum = arr.reverse();
+  } else {
+    maxNum = arr.sort((a, b) => a - b).reverse().slice(0, 3);
+  }
+  return maxNum;
 }
-
 
 /**
  * Returns the number of positive numbers from specified array
@@ -302,8 +307,8 @@ function get3TopItems(/* arr */) {
  *   [ null, 1, 'elephant' ] => 1
  *   [ 1, '2' ] => 1
  */
-function getPositivesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getPositivesCount(arr) {
+  return arr.reduce((acc, cur) => ((cur > 0) && (typeof cur === 'number') ? acc + 1 : acc + 0), 0);
 }
 
 /**
@@ -319,8 +324,13 @@ function getPositivesCount(/* arr */) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const nameDigit = (a, b) => {
+    const arrNameDigit = ['zero', 'one', 'two', 'three', 'four',
+      'five', 'six', 'seven', 'eight', 'nine'];
+    return arrNameDigit.indexOf(a) - arrNameDigit.indexOf(b);
+  };
+  return arr.sort(nameDigit);
 }
 
 /**
@@ -335,15 +345,15 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   [ -1, 1, -1, 1 ]      => 0
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
-function getItemsSum(/* arr */) {
-  throw new Error('Not implemented');
+function getItemsSum(arr) {
+  return arr.reduce((acc, cur) => acc + cur, 0);
 }
 
 /**
  * Returns the number of all falsy value in the specified array
  *
  * @param {array} arr
- * @return {number}
+ * @return {*[]}
  *
  * @example
  *  [] => 0
@@ -351,8 +361,14 @@ function getItemsSum(/* arr */) {
  *  [ -1, 'false', null, 0 ] => 2
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getFalsyValuesCount(arr) {
+  let res;
+  if (arr.length === 0) {
+    res = 0;
+  } else {
+    res = arr.reduce((acc, cur) => (cur ? acc + 0 : acc + 1), 0);
+  }
+  return res;
 }
 
 /**
@@ -369,8 +385,8 @@ function getFalsyValuesCount(/* arr */) {
  *    [ null, undefined, null ], null => 2
  *    [ true, 0, 1, 'true' ], true => 1
  */
-function findAllOccurrences(/* arr, item */) {
-  throw new Error('Not implemented');
+function findAllOccurrences(arr, item) {
+  return arr.reduce((acc, cur) => (item === cur ? acc + 1 : acc + 0), 0);
 }
 
 /**
@@ -384,10 +400,9 @@ function findAllOccurrences(/* arr, item */) {
  *    [1, 2, 3, 4, 5]                   => '1,2,3,4,5'
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
-function toStringList(/* arr */) {
-  throw new Error('Not implemented');
+function toStringList(arr) {
+  return arr.join(',');
 }
-
 
 /**
  * Sorts the specified array by country name first and city name
@@ -469,8 +484,8 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return Array.from(new Set(arr));
 }
 
 /**
@@ -521,10 +536,14 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  // флат Метод flat() возвращает новый массив, в котором все элементы вложенных подмассивов
+  // были рекурсивно "подняты" на указанный уровень depth
+  // depth Необязательный. На сколько уровней вложенности уменьшается мерность исходного массива
+  // По умолчанию 1
+  // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
+  return arr.map(childrenSelector).flat();
 }
-
 
 /**
  * Returns an element from the multidimensional array by the specified indexes.
