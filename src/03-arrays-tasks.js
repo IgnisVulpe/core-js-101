@@ -199,8 +199,8 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  return arr.join('\n');
 }
 
 /**
@@ -266,8 +266,19 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  let arrRes;
+  if (arr.length === 0 || arr.length === 1) {
+    arrRes = arr;
+  } else {
+    // Array.from создал пустой массив с определенной длинной из объекта
+    // (первый аргумент) { length: i + 1 } который задал длинну. А второй аргумент это стрел.фун.
+    // которая сделает действие над каждым элементом созданного массива. В данном случае заменит
+    // каждый элемент созданного массива на переменную которая возвращается стрел.фун.
+    arrRes = arr.map((e, i) => Array.from({ length: i + 1 }, () => e));
+  }
+  // Используя редусе объединяю все вложенные массивы в аккумулятор, котоый вернется в ретурн
+  return arrRes.reduce((acc, cur) => acc.concat(cur), []);
 }
 
 
@@ -452,8 +463,13 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  // создала массив n элементов наполненный массивами с n пустыми элементами
+  let resArr = Array.from({ length: n }, () => Array.from({ length: n }));
+  // перебрала каждый массивчик с внутренними элементами. Если индекс элемента во внутреннем массиве
+  // равен индексу внутр.массива, то элемент будет равен 1 иначе - 0
+  resArr = resArr.map((e, i) => e.map((eInner, iInner) => (iInner === i ? 1 : 0)));
+  return resArr;
 }
 
 /**
