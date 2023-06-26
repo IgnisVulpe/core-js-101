@@ -441,8 +441,9 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => a.country.localeCompare(b.country)
+    || a.city.localeCompare(b.city));
 }
 
 /**
@@ -485,8 +486,14 @@ function getIdentityMatrix(n) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  let res = [];
+  if (start === end) {
+    res.push(start);
+  } else {
+    res = Array.from({ length: Math.abs((end - start) + 1) }, (e, i) => start + i);
+  }
+  return res;
 }
 
 /**
@@ -534,8 +541,28 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+// https://learn.javascript.ru/map-set
+  // перебираю данный массив объектов в аргументе curObj будет лежать объект из массива
+  return array.reduce((acc, curObj) => {
+    // используя калбек получаю из объекта значения которые буду использовать как ключ в мультимапе
+    const curKey = keySelector(curObj);
+    // проверяю если ли в мультимапе такой ключ. Еслм нет, то в newValue будет лежать undefained
+    let newValue = acc.get(curKey);
+    if (typeof newValue === 'undefined') {
+      // Если у мультимапе нет такого ключа (newValue === undefained), то значением подготовленным
+      // к записи в мульмап указываю массив с нужным значением из текущего объекта.
+      // это значение получаю используя калбек для получения значений из исходных объектов
+      newValue = [valueSelector(curObj)];
+    } else {
+      // Если значение есть, то это массив, и в него добаюляю значение из текущего объекта
+      // используя калбек
+      newValue.push(valueSelector(curObj));
+    }
+    // исползую подготовленные пары ключ и значение обновляю мультимап
+    acc.set(curKey, newValue);
+    return acc;
+  }, new Map());
 }
 
 
