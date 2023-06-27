@@ -600,10 +600,13 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  // редусе перебирает массив с индексами, в редусе задается начальное значение для аккумулятора
+  // в виде исхюмассива из которого нужно дастать значение. На каждом шаге редусе стрел.фун. задает
+  // новое значение аккумулятора, заходя вглубь исх.массива используя в качестве индексов значения
+  // из массива индексов
+  return indexes.reduce((acc, curIndex) => acc[curIndex], arr);
 }
-
 
 /**
  * Swaps the head and tail of the specified array:
@@ -623,10 +626,19 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  let res = [];
+  if (arr.length === 1) {
+    res = arr;
+  } else if (arr.length % 2 === 0) {
+    res = arr.slice(arr.length / 2).concat(arr.slice(0, (arr.length / 2)));
+  } else {
+    res = arr.slice(Math.floor(arr.length / 2) + 1)
+      .concat(arr[Math.floor(arr.length / 2)])
+      .concat(arr.slice(0, Math.floor(arr.length / 2)));
+  }
+  return res;
 }
-
 
 module.exports = {
   findElement,

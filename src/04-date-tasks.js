@@ -28,22 +28,22 @@ function parseDataFromRfc2822(value) {
  * For ISO 8601 date specification refer to : https://en.wikipedia.org/wiki/ISO_8601
  *
  * @param {string} value
- * @return {date}
+ * @return {Date}
  *
  * @example :
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return new Date(value);
 }
 
 /**
  * Returns true if specified date is leap year and false otherwise
  * Please find algorithm here: https://en.wikipedia.org/wiki/Leap_year#Algorithm
  *
- * @param {date} date
- * @return {bool}
+ * @param {Date} date
+ * @return {boolean}
  *
  * @example :
  *    Date(1900,1,1)    => false
@@ -52,16 +52,17 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  return date.getFullYear() % 400 === 0 || ((date.getFullYear() % 4 === 0)
+    && !(date.getFullYear() % 100 === 0));
 }
 
 /**
  * Returns the string representation of the timespan between two dates.
  * The format of output string is "HH:mm:ss.sss"
  *
- * @param {date} startDate
- * @param {date} endDate
+ * @param {Date} startDate
+ * @param {Date} endDate
  * @return {string}
  *
  * @example:
@@ -71,8 +72,12 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const dateData = new Date(endDate - startDate);
+  return `${dateData.getUTCHours().toString(10).padStart(2, '0')}`
+  + `:${dateData.getUTCMinutes().toString(10).padStart(2, '0')}`
+  + `:${dateData.getUTCSeconds().toString(10).padStart(2, '0')}`
+  + `.${dateData.getUTCMilliseconds().toString(10).padStart(3, '0')}`;
 }
 
 /**
@@ -82,7 +87,7 @@ function timeSpanToString(/* startDate, endDate */) {
  *
  * SMALL TIP: convert to radians just once, before return in order to not lost precision
  *
- * @param {date} date
+ * @param {Date} date
  * @return {number}
  *
  * @example:
